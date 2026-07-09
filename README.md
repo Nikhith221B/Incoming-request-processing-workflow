@@ -262,3 +262,5 @@ src/
 data/
   sample_requests.csv, routing_taxonomy.json, knowledge_base.md, case_log.csv (created at runtime)
 ```
+
+## Deployed on Streamlit: https://incoming-request-processing-workflow.streamlit.app/

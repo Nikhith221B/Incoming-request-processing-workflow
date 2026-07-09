@@ -45,26 +45,7 @@ NAV_ITEMS: List[Dict[str, str]] = [
 ]
 SECTIONS = [item["label"] for item in NAV_ITEMS]
 
-CUSTOM_CSS = """
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-html, body, [class*="css"] {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-.stApp {
-  /* Dark chrome: sidebar + header (always) */
-  --ops-chrome-bg: #0a0e17;
-  --ops-chrome-elevated: #121a2a;
-  --ops-chrome-text: #f8fafc;
-  --ops-chrome-muted: #94a3b8;
-  --ops-chrome-border: #243044;
-  --ops-chrome-hover: rgba(255, 255, 255, 0.06);
-  --ops-chrome-active: rgba(59, 130, 246, 0.22);
-  --ops-brand: #3b82f6;
-  --ops-brand-bright: #60a5fa;
-  /* Workspace tokens — light defaults (dark overridden below) */
+WORKSPACE_LIGHT_VARS = """
   --ops-surface: #ffffff;
   --ops-muted: #f4f6fb;
   --ops-text: #0f172a;
@@ -72,13 +53,9 @@ html, body, [class*="css"] {
   --ops-border: #dbe3ef;
   --ops-shadow: rgba(15, 23, 42, 0.06);
   --ops-ticket-bg: #eef4ff;
-  --ops-success: #10b981;
-  --ops-warning: #f59e0b;
-}
+"""
 
-/* Dark / system-resolved-dark — workspace matches sidebar chrome */
-.stApp[data-theme="dark"],
-html[data-theme="dark"] .stApp {
+WORKSPACE_DARK_VARS = """
   --ops-surface: #121a2a;
   --ops-muted: #0a0e17;
   --ops-text: #f8fafc;
@@ -86,20 +63,9 @@ html[data-theme="dark"] .stApp {
   --ops-border: #243044;
   --ops-shadow: rgba(0, 0, 0, 0.35);
   --ops-ticket-bg: #121a2a;
-}
+"""
 
-/* Light theme workspace */
-.stApp[data-theme="light"],
-html[data-theme="light"] .stApp {
-  --ops-surface: #ffffff;
-  --ops-muted: #f4f6fb;
-  --ops-text: #0f172a;
-  --ops-text-muted: #64748b;
-  --ops-border: #dbe3ef;
-  --ops-shadow: rgba(15, 23, 42, 0.06);
-  --ops-ticket-bg: #eef4ff;
-}
-
+CUSTOM_CSS_TAIL = """
 .block-container {
   padding-top: 0.65rem;
   padding-bottom: 1.25rem;
@@ -442,131 +408,74 @@ html[data-theme="light"] .stApp {
   background: rgba(245, 158, 11, 0.15);
   border-color: rgba(245, 158, 11, 0.35);
 }
-.stApp[data-theme="dark"] .case-panel .mode-success {
-  color: #6ee7b7;
-}
-.stApp[data-theme="dark"] .case-panel .mode-warning {
-  color: #fcd34d;
-}
 
-/* Streamlit widgets in dark workspace */
-.stApp[data-theme="dark"] [data-testid="stMain"] input,
-.stApp[data-theme="dark"] [data-testid="stMain"] textarea,
-.stApp[data-theme="dark"] [data-testid="stMain"] [data-baseweb="select"],
-html[data-theme="dark"] .stApp [data-testid="stMain"] input,
-html[data-theme="dark"] .stApp [data-testid="stMain"] textarea,
-html[data-theme="dark"] .stApp [data-testid="stMain"] [data-baseweb="select"] {
+[data-testid="stMain"] input,
+[data-testid="stMain"] textarea,
+[data-testid="stMain"] [data-baseweb="select"] {
   color: var(--ops-text);
   background-color: var(--ops-surface);
   border-color: var(--ops-border);
 }
-.stApp[data-theme="dark"] [data-testid="stMain"] [data-testid="stCode"],
-html[data-theme="dark"] .stApp [data-testid="stMain"] [data-testid="stCode"] {
+[data-testid="stMain"] [data-testid="stCode"] {
   background: var(--ops-surface);
   color: var(--ops-text);
 }
-.stApp[data-theme="dark"] [data-testid="stMain"] .stTextArea textarea[disabled],
-html[data-theme="dark"] .stApp [data-testid="stMain"] .stTextArea textarea[disabled] {
+[data-testid="stMain"] .stTextArea textarea[disabled] {
   color: var(--ops-text) !important;
   -webkit-text-fill-color: var(--ops-text) !important;
   opacity: 1 !important;
   background-color: var(--ops-surface) !important;
 }
-
-/* ── Dark / system: force unified chrome background + readable text ── */
-.stApp[data-theme="dark"],
-html[data-theme="dark"] .stApp,
-html[data-theme="dark"] body {
-  background-color: #0a0e17 !important;
-}
-.stApp[data-theme="dark"] [data-testid="stAppViewContainer"],
-html[data-theme="dark"] [data-testid="stAppViewContainer"],
-.stApp[data-theme="dark"] [data-testid="stAppViewContainer"] > section.main,
-html[data-theme="dark"] [data-testid="stAppViewContainer"] > section.main,
-.stApp[data-theme="dark"] [data-testid="stMain"],
-html[data-theme="dark"] [data-testid="stMain"],
-.stApp[data-theme="dark"] [data-testid="stMain"] > div,
-html[data-theme="dark"] [data-testid="stMain"] > div,
-.stApp[data-theme="dark"] .block-container,
-html[data-theme="dark"] .block-container {
-  background-color: #0a0e17 !important;
-  color: #f8fafc !important;
-}
-.stApp[data-theme="dark"] [data-testid="stMain"] h1,
-.stApp[data-theme="dark"] [data-testid="stMain"] h2,
-.stApp[data-theme="dark"] [data-testid="stMain"] h3,
-.stApp[data-theme="dark"] [data-testid="stMain"] h4,
-.stApp[data-theme="dark"] [data-testid="stMain"] p,
-.stApp[data-theme="dark"] [data-testid="stMain"] label,
-.stApp[data-theme="dark"] [data-testid="stMain"] .stMarkdown,
-.stApp[data-theme="dark"] [data-testid="stMain"] [data-testid="stMarkdownContainer"] p,
-.stApp[data-theme="dark"] [data-testid="stMain"] [data-testid="stMarkdownContainer"] li,
-.stApp[data-theme="dark"] [data-testid="stMain"] .stCaption,
-html[data-theme="dark"] [data-testid="stMain"] h1,
-html[data-theme="dark"] [data-testid="stMain"] h2,
-html[data-theme="dark"] [data-testid="stMain"] h3,
-html[data-theme="dark"] [data-testid="stMain"] h4,
-html[data-theme="dark"] [data-testid="stMain"] p,
-html[data-theme="dark"] [data-testid="stMain"] label,
-html[data-theme="dark"] [data-testid="stMain"] .stMarkdown,
-html[data-theme="dark"] [data-testid="stMain"] [data-testid="stMarkdownContainer"] p,
-html[data-theme="dark"] [data-testid="stMain"] [data-testid="stMarkdownContainer"] li,
-html[data-theme="dark"] [data-testid="stMain"] .stCaption {
-  color: #f8fafc !important;
-}
-.stApp[data-theme="dark"] [data-testid="stMain"] label[data-testid="stWidgetLabel"],
-html[data-theme="dark"] [data-testid="stMain"] label[data-testid="stWidgetLabel"] {
-  color: #cbd5e1 !important;
-}
-.stApp[data-theme="dark"] .info-card,
-html[data-theme="dark"] .info-card {
-  background: #121a2a !important;
-  border-color: #243044 !important;
-  color: #f8fafc !important;
-}
-.stApp[data-theme="dark"] .info-card h4,
-.stApp[data-theme="dark"] .queue-note,
-html[data-theme="dark"] .info-card h4,
-html[data-theme="dark"] .queue-note {
-  color: #f8fafc !important;
-}
-html[data-theme="dark"] .queue-note {
-  color: #94a3b8 !important;
-}
-
-/* System theme fallback when OS is dark */
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .stApp,
-  html:not([data-theme="light"]) [data-testid="stAppViewContainer"],
-  html:not([data-theme="light"]) [data-testid="stMain"],
-  html:not([data-theme="light"]) .block-container {
-    background-color: #0a0e17 !important;
-  }
-  html:not([data-theme="light"]) .stApp {
-    --ops-surface: #121a2a;
-    --ops-muted: #0a0e17;
-    --ops-text: #f8fafc;
-    --ops-text-muted: #94a3b8;
-    --ops-border: #243044;
-    --ops-ticket-bg: #121a2a;
-  }
-  html:not([data-theme="light"]) [data-testid="stMain"] h1,
-  html:not([data-theme="light"]) [data-testid="stMain"] h2,
-  html:not([data-theme="light"]) [data-testid="stMain"] h3,
-  html:not([data-theme="light"]) [data-testid="stMain"] p,
-  html:not([data-theme="light"]) [data-testid="stMain"] label,
-  html:not([data-theme="light"]) [data-testid="stMain"] [data-testid="stMarkdownContainer"] p {
-    color: #f8fafc !important;
-  }
-  html:not([data-theme="light"]) .info-card {
-    background: #121a2a !important;
-    border-color: #243044 !important;
-    color: #f8fafc !important;
-  }
-}
 </style>
 """
-st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
+
+
+def build_custom_css(theme_type: Optional[str]) -> str:
+    """Build CSS with workspace tokens from Streamlit's resolved theme (Cloud-safe)."""
+    if theme_type == "dark":
+        workspace_vars = WORKSPACE_DARK_VARS
+        system_fallback = ""
+    elif theme_type == "light":
+        workspace_vars = WORKSPACE_LIGHT_VARS
+        system_fallback = ""
+    else:
+        workspace_vars = WORKSPACE_LIGHT_VARS
+        system_fallback = f"""
+@media (prefers-color-scheme: dark) {{
+  .stApp {{{WORKSPACE_DARK_VARS}
+  }}
+}}
+"""
+
+    return f"""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+html, body, [class*="css"] {{
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}}
+
+.stApp {{
+  /* Dark chrome: sidebar + header (always) */
+  --ops-chrome-bg: #0a0e17;
+  --ops-chrome-elevated: #121a2a;
+  --ops-chrome-text: #f8fafc;
+  --ops-chrome-muted: #94a3b8;
+  --ops-chrome-border: #243044;
+  --ops-chrome-hover: rgba(255, 255, 255, 0.06);
+  --ops-chrome-active: rgba(59, 130, 246, 0.22);
+  --ops-brand: #3b82f6;
+  --ops-brand-bright: #60a5fa;
+  --ops-success: #10b981;
+  --ops-warning: #f59e0b;
+  {workspace_vars}
+}}
+{system_fallback}
+{CUSTOM_CSS_TAIL}
+"""
+
+
+st.markdown(build_custom_css(st.context.theme.type), unsafe_allow_html=True)
 
 
 def _escape(value: Any) -> str:

@@ -1,0 +1,11 @@
+requester_name,requester_email,account_id,channel,request_text
+Amit Sharma,amit@example.com,ACC-10021,email,"I was charged twice for my last invoice and nobody has responded. This is unacceptable and I want this fixed today."
+Sara Khan,sara@example.com,,web_form,"Can you explain your refund policy and how long support usually takes to respond?"
+Priya Menon,priya@example.com,ACC-88210,email,"Please activate my new business account and update the billing contact to Priya Menon."
+Rahul Verma,rahul@example.com,ACC-44102,shared_inbox,"Our service is down during launch day. I need a supervisor immediately or we will escalate this legally."
+Dana Lee,dana@example.com,ACC-33019,email,"I need to cancel one seat from our subscription and move the remaining seats to the annual plan."
+Maya Rao,maya@example.com,ACC-21775,email,"Your support team has ignored three emails and the issue is still unresolved. I am very disappointed."
+Omar Ali,omar@example.com,,web_form,"I was charged twice, but I also just want the refund policy and pricing details. Please advise what I should do next."
+Helen Cho,helen@example.com,,email,"What is your expected response time for general enquiries, and do refund reviews take longer than that?"
+Jason Brooks,jason@example.com,ACC-90511,shared_inbox,"We detected possible fraud on account ACC-90511. Notify a supervisor immediately and pause automated changes until compliance reviews this."
+Unknown Sender,unknown@example.com,,shared_inbox,"Need help with the thing we discussed earlier. Please fix ASAP somehow."

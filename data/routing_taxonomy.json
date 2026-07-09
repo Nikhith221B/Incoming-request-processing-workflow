@@ -1,0 +1,66 @@
+{
+  "version": "1.1",
+  "description": "Transparent fallback routing taxonomy used only when the LLM is unavailable. This is not sample-message matching; it is a reusable intent-signal library for operations triage.",
+  "categories": {
+    "Complaint": {
+      "default_urgency": "High",
+      "signals": [
+        {"label": "billing dispute", "weight": 6.0, "phrases": ["charged twice", "duplicate charge", "double charged", "overcharged", "over charged", "incorrect charge", "wrong charge", "billing dispute", "refund dispute"]},
+        {"label": "invoice issue", "weight": 4.0, "phrases": ["invoice issue", "billing issue", "reversal", "invoice mismatch", "wrong invoice"]},
+        {"label": "poor response experience", "weight": 4.5, "phrases": ["nobody has responded", "nobody responded", "nobody replied", "no one replied", "no one has responded", "no response", "ignored", "not resolved", "still unresolved", "unanswered"]},
+        {"label": "customer dissatisfaction", "weight": 3.0, "phrases": ["unacceptable", "angry", "disappointed", "not happy", "frustrated", "complaint", "terrible experience", "bad experience"]},
+        {"label": "refund mention", "weight": 1.0, "phrases": ["refund"]}
+      ]
+    },
+    "General Enquiry": {
+      "default_urgency": "Low",
+      "signals": [
+        {"label": "refund policy", "weight": 6.0, "phrases": ["refund policy", "refund reviews", "refund timeline", "refund eligibility"]},
+        {"label": "support timing", "weight": 4.0, "phrases": ["response time", "expected response", "how long", "how long support", "support usually takes", "support hours", "business hours"]},
+        {"label": "pricing and availability", "weight": 3.5, "phrases": ["pricing", "annual plan pricing", "availability", "plan options", "subscription plans"]},
+        {"label": "information request", "weight": 2.5, "phrases": ["can you explain", "can you tell me", "what are your", "tell me", "what is", "when will", "how do i", "where can i", "policy"]}
+      ]
+    },
+    "Service Request": {
+      "default_urgency": "Medium",
+      "signals": [
+        {"label": "activation", "weight": 5.5, "phrases": ["activate", "activate account", "account activation", "new account", "enable account", "provision account"]},
+        {"label": "setup", "weight": 4.0, "phrases": ["set up", "setup", "install", "configure", "configuration"]},
+        {"label": "account update target", "weight": 5.0, "phrases": ["billing contact", "billing email", "billing address", "admin email", "account owner", "contact email"]},
+        {"label": "account update action", "weight": 3.0, "phrases": ["update", "change", "replace", "move", "transfer"]},
+        {"label": "subscription change", "weight": 4.0, "phrases": ["cancel", "please cancel", "subscription cancellation", "subscription", "upgrade", "downgrade", "seat", "add seats", "remove seats"]}
+      ]
+    },
+    "Escalation / Urgent": {
+      "default_urgency": "Critical",
+      "signals": [
+        {"label": "legal or compliance risk", "weight": 7.5, "phrases": ["lawsuit", "legal", "fraud", "compliance", "safety", "data breach", "breach", "security incident", "regulator", "attorney"]},
+        {"label": "outage", "weight": 6.0, "phrases": ["outage", "portal is down", "service down", "is down", "no service", "cannot log in", "can't log in", "system unavailable", "site unavailable"]},
+        {"label": "supervisor request", "weight": 5.0, "phrases": ["supervisor", "manager", "escalate", "senior person"]},
+        {"label": "immediate deadline", "weight": 4.0, "phrases": ["immediately", "right now", "asap", "urgent", "launch day", "launch", "today"]}
+      ]
+    }
+  },
+  "conflict_rules": [
+    {
+      "name": "billing_dispute_plus_policy_or_pricing",
+      "description": "A live billing dispute mixed with policy/pricing questions should not be auto-resolved as a knowledge-base enquiry.",
+      "route_to": "Needs Human Review",
+      "min_scores": {"Complaint": 6.0, "General Enquiry": 5.0},
+      "required_phrase_groups": [
+        ["charged twice", "duplicate charge", "double charged", "overcharged", "billing dispute", "wrong charge"],
+        ["refund policy", "pricing", "policy", "what should i do", "can you explain"]
+      ]
+    },
+    {
+      "name": "urgent_risk_plus_auto_service_request",
+      "description": "Operational service changes mixed with legal/fraud/outage language require manual triage or escalation rather than automatic fulfillment.",
+      "route_to": "Needs Human Review",
+      "min_scores": {"Service Request": 4.0, "Escalation / Urgent": 5.0},
+      "required_phrase_groups": [
+        ["update", "change", "cancel", "upgrade", "downgrade", "activate"],
+        ["legal", "fraud", "breach", "outage", "supervisor", "immediately", "right now"]
+      ]
+    }
+  ]
+}

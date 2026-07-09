@@ -1,0 +1,62 @@
+{
+  "Complaint": {
+    "default_urgency": "High",
+    "routing_team": "Senior Customer Support",
+    "status": "Escalated",
+    "sla": "2-hour follow-up",
+    "actions": [
+      "Generate empathetic acknowledgement",
+      "Escalate to senior handler",
+      "Log case with priority flag",
+      "Set 2-hour follow-up reminder"
+    ]
+  },
+  "General Enquiry": {
+    "default_urgency": "Low",
+    "routing_team": "Customer Support Knowledge Desk",
+    "status": "Resolved",
+    "sla": "No SLA timer required",
+    "actions": [
+      "Classify enquiry sub-topic",
+      "Generate response from knowledge base",
+      "Mark as resolved when confidence is high",
+      "Log outcome"
+    ]
+  },
+  "Service Request": {
+    "default_urgency": "Medium",
+    "routing_team": "Account Operations",
+    "status": "Routed",
+    "sla": "1-business-day SLA",
+    "actions": [
+      "Extract required details",
+      "Route to relevant department",
+      "Generate confirmation to requester",
+      "Set SLA timer"
+    ]
+  },
+  "Escalation / Urgent": {
+    "default_urgency": "Critical",
+    "routing_team": "Operations Supervisor",
+    "status": "Human Review Required",
+    "sla": "Immediate supervisor review",
+    "actions": [
+      "Flag for immediate human review",
+      "Draft urgent acknowledgement",
+      "Notify supervisor",
+      "Pause auto-resolution"
+    ]
+  },
+  "Needs Human Review": {
+    "default_urgency": "Medium",
+    "routing_team": "Operations Triage Desk",
+    "status": "Pending Review",
+    "sla": "Manual triage required",
+    "actions": [
+      "Flag for manual triage",
+      "Generate clarification request",
+      "Queue case for human review",
+      "Do not auto-resolve"
+    ]
+  }
+}
